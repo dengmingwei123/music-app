@@ -1,7 +1,23 @@
 <template>
   <div class='recommend'>
     <div class="recommend-content">
-      <div class="slider-wrapper"></div>
+      <div
+        class="slider-wrapper"
+        v-if="sliderData.length"
+      >
+        <div class="slider-content">
+          <slider>
+            <div
+              v-for="item in sliderData"
+              :key='item.id'
+            >
+              <a :href="item.linkUrl">
+                <img :src="item.picUrl">
+              </a>
+            </div>
+          </slider>
+        </div>
+      </div>
       <div class="recommend-list">
         <h1 class='list-title'>热门歌单推荐</h1>
         <ul></ul>
@@ -12,19 +28,36 @@
 
 <script>
 import { getRecommend } from 'api/recommend.js'
+import { ERR_OK } from 'api/config.js'
+import Slider from 'base/slider/Slider.vue'
 export default {
   data() {
-    return {}
+    return {
+      sliderData: [],
+      autoPlay: true
+    }
   },
   created() {
-    getRecommend().then(res => {
-      console.log(res)
-    })
+    this._getRecommend()
+  },
+  methods: {
+    // 获取轮播图数据
+    async _getRecommend() {
+      const res = await getRecommend()
+      const { code, data: { slider } } = res
+      if (code === ERR_OK) {
+        this.sliderData = slider
+        console.log(this.sliderData)
+      }
+    }
+  },
+  components: {
+    Slider
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '~common/stylus/variable.styl';
 
 .recommend {
@@ -34,6 +67,25 @@ export default {
   bottom: 0;
 
   .recommend-content {
+    height: 100%;
+    overflow: hidden;
+
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-top: 40%;
+      overflow: hidden;
+
+      .slider-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
     .recommend-list {
       text-align: center;
       height: 65px;
