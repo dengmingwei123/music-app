@@ -43,7 +43,7 @@ export default {
     // 轮播时间
     interval: {
       type: Number,
-      default: 4000
+      default: 3000
     }
   },
   mounted() {
@@ -119,6 +119,18 @@ export default {
       this.slider.on('scrollEnd', () => {
         const index = this.slider.getCurrentPage().pageX
         this.currentPageIndex = index
+        if (this.autoPlay) {
+          this._play()
+        }
+      })
+
+      this.slider.on('beforeScrollStart', () => {
+        if (this.autoPlay) {
+          clearTimeout(this.timer)
+        }
+      })
+
+      this.slider.on('touchend', () => {
         if (this.autoPlay) {
           this._play()
         }

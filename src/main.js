@@ -6,6 +6,13 @@ import store from './store'
 // 引入基础样式文件
 import 'common/stylus/index.styl'
 
+// 引入vue-lazyload
+import VueLazyLoad from 'vue-lazyload'
+// 使用vue-lazyLoad
+Vue.use(VueLazyLoad, {
+  loading: require('common/image/logo.gif')
+})
+
 Vue.config.productionTip = false
 
 new Vue({
