@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import Recommend from 'components/recommend/Recommend.vue'
 // 引入歌手页面
 import Singer from 'components/singer/Singer.vue'
+// 引入歌手详情页
+import SingerDetail from 'components/singer-detail/Singer-Detail.vue'
 
 Vue.use(VueRouter)
 
@@ -20,7 +22,13 @@ const routes = [
   {
     path: '/singer',
     name: 'singer',
-    component: Singer
+    component: Singer,
+    children: [
+      {
+        path: ':id',
+        component: SingerDetail
+      }
+    ]
   }
 ]
 
