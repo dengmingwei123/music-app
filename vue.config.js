@@ -1,5 +1,6 @@
 const path = require('path')
 const axios = require('axios')
+const bodyParser = require('body-parser')
 const ERR_OK = 0
 const ERR_OFF = -1
 
@@ -80,6 +81,49 @@ module.exports = {
               code: ERR_OFF
             })
           }
+        }).catch(err => {
+          console.log(err)
+        })
+      })
+
+      // 获取歌词
+      app.get('/api/getLyric', function (req, res) {
+        const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          let result = response.data
+          if (typeof result === 'string') {
+            // 配置规则
+            const reg = /^\w+\(({.+})\)$/
+            const matches = result.match(reg)
+            if (matches) {
+              result = JSON.parse(matches[1])
+            }
+          }
+          res.json(result)
+        }).catch(err => {
+          console.log(err)
+        })
+      })
+
+      // 获取歌曲播放url
+      app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+
+        axios.post(url, req.body, {
+          headers: {
+            referer: 'https://y.qq.com/',
+            origin: 'https://y.qq.com',
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        }).then(response => {
+          res.json(response.data)
         }).catch(err => {
           console.log(err)
         })
