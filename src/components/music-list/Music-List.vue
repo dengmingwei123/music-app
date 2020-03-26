@@ -38,14 +38,18 @@
     ></div>
     <scroll
       class="list"
-      :data='songs'
       ref='list'
       @scroll='scroll'
+      :data='songs'
+      :click='click'
       :probeType='probeType'
       :listenScroll='true'
     >
       <div class="song-list-wrapper">
-        <song-list :songs='songs'></song-list>
+        <song-list
+          :songs='songs'
+          @select='selectSong'
+        ></song-list>
       </div>
       <div
         v-show='!songs.length'
@@ -62,6 +66,7 @@ import SongList from 'base/song-list/Song-List.vue'
 import Scroll from 'base/scroll/Scroll.vue'
 import Loading from 'base/loading/Loading.vue'
 import { prefixStyle } from 'common/js/dom'
+import { mapActions } from 'vuex'
 
 const HEADER_HEIGHT = 40
 const transform = prefixStyle('transform')
@@ -94,6 +99,7 @@ export default {
   created() {
     this.probeType = 3
     this.listenScroll = true
+    this.click = true
   },
   mounted() {
     this.imageHeight = this.$refs.bgImage.clientHeight
@@ -101,11 +107,17 @@ export default {
     this.$refs.list.$el.style.top = this.imageHeight + 'px'
   },
   methods: {
+    ...mapActions([
+      'playMusic'
+    ]),
     back() {
       this.$router.back()
     },
     scroll(pos) {
       this.scrollY = pos.y
+    },
+    selectSong(song, index) {
+      this.playMusic({ list: this.songs, index })
     }
   },
   watch: {

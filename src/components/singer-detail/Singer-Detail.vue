@@ -47,7 +47,6 @@ export default {
       if (code === ERR_OK) {
         const songs = await processSongsUrl(this._normalListSongs(list))
         this.songs = songs
-        console.log(this.songs)
       }
     },
     _normalListSongs(list) {

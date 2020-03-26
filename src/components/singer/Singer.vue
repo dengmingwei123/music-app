@@ -41,7 +41,6 @@ export default {
       const { code, data: { list } } = res
       if (code === ERR_OK) {
         this.singerList = this._normalizeSinger(list)
-        console.log(this.singerList)
       }
     },
     _normalizeSinger(list) {

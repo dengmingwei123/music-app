@@ -2,9 +2,10 @@
   <div class='song-list'>
     <ul class='list-box'>
       <li
-        v-for='song in songs'
+        v-for='(song,index) in songs'
         :key='song.id'
         class='list-item'
+        @click='selectSong(song,index)'
       >
         <div class="item-content">
           <p
@@ -29,6 +30,9 @@ export default {
   methods: {
     getDesc(song) {
       return `${song.singer}-${song.album}`
+    },
+    selectSong(song, index) {
+      this.$emit('select', song, index)
     }
   }
 }
