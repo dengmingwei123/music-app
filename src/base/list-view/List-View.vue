@@ -128,7 +128,6 @@ export default {
     onShortcutStart(e) {
       // 获取当前点击的元素中保存的索引值
       const anchorIndex = getData(e.target, 'index')
-      console.log(anchorIndex)
       // 保存第一次点击的位置
       const firstTouch = e.touches[0]
       this.touchs.y1 = firstTouch.pageY
@@ -155,6 +154,9 @@ export default {
         index = this.listHeight.length - 2
       }
       this.$refs.listView.scrollToElement(this.$refs.listGroup[index], 0)
+    },
+    refresh() {
+      this.$refs.listView && this.$refs.listView.refresh()
     }
   },
   watch: {

@@ -1,11 +1,11 @@
 <template>
   <transition
-    appear
     name='slider'
+    appear
   >
     <music-list
-      :bg-image='bgImage'
       :title='title'
+      :bgImage='bgImage'
       :songs='songs'
     ></music-list>
   </transition>
@@ -14,9 +14,10 @@
 <script>
 import MusicList from 'components/music-list/Music-List.vue'
 import { mapGetters } from 'vuex'
-import { getSingerDetail } from 'api/singer'
+import { getSongList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
-import { createSingerSong, isValidMusic, processSongsUrl } from 'common/js/song'
+import { createSongList, isValidSong, processSongsUrl } from 'common/js/song'
+
 export default {
   data() {
     return {
@@ -24,38 +25,37 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'disc'
+    ]),
     title() {
-      return this.singer.name
+      return this.disc.title
     },
     bgImage() {
-      return this.singer.imgUrl
-    },
-    ...mapGetters(['singer'])
+      return this.disc.cover
+    }
   },
   created() {
-    this._getDetail()
+    if (!this.disc.content_id) {
+      console.log(1)
+      this.$router.back()
+    }
+    this._getSongList()
   },
   methods: {
-    async _getDetail() {
-      if (!this.singer.id) {
-        this.$router.back()
-        return
-      }
-
-      const res = await getSingerDetail(this.singer.id)
-      const { code, data: { list } } = res
+    async _getSongList() {
+      const res = await getSongList(this.disc.content_id)
+      const { code, data } = res
       if (code === ERR_OK) {
-        const songs = await processSongsUrl(this._normalListSongs(list))
-        console.log(songs)
+        const songs = await processSongsUrl(this._normalizeSongList(data))
         this.songs = songs
       }
     },
-    _normalListSongs(list) {
+    _normalizeSongList(list) {
       const result = []
       list.forEach(v => {
-        const { musicData } = v
-        if (isValidMusic(musicData)) {
-          result.push(createSingerSong(musicData))
+        if (isValidSong(v)) {
+          result.push(createSongList(v))
         }
       })
       return result

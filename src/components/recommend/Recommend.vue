@@ -1,7 +1,11 @@
 <template>
-  <div class='recommend'>
+  <div
+    class='recommend'
+    ref='recommend'
+  >
     <scroll
       :data='discList'
+      :click='click'
       ref='scroll'
       class='recommend-content'
     >
@@ -33,6 +37,7 @@
               class='list-item'
               v-for='item in discList'
               :key='item.content_id'
+              @click='selectSongList(item)'
             >
               <div class="icon">
                 <img
@@ -62,6 +67,7 @@
         <loading></loading>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -71,7 +77,11 @@ import { ERR_OK } from 'api/config.js'
 import Slider from 'base/slider/Slider.vue'
 import Scroll from 'base/scroll/Scroll.vue'
 import Loading from 'base/loading/Loading.vue'
+import { playlistMixin } from 'common/js/mixin'
+import { mapMutations } from 'vuex'
+
 export default {
+  mixins: [playlistMixin],
   data() {
     return {
       sliderData: [],
@@ -81,8 +91,17 @@ export default {
   created() {
     this._getRecommend()
     this._getDiscList()
+    this.click = true
   },
   methods: {
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
+    },
+    ...mapMutations({
+      setDisc: 'SET_DISC'
+    }),
     // 获取轮播图数据
     async _getRecommend() {
       const res = await getRecommend()
@@ -96,6 +115,7 @@ export default {
       const res = await getDiscList()
       const { code, data } = res
       if (code === ERR_OK) {
+        console.log(data)
         this.discList = data
       }
     },
@@ -108,6 +128,13 @@ export default {
           this.$refs.scroll.refresh()
         }, 20)
       }
+    },
+    // 点击歌单
+    selectSongList(songList) {
+      this.$router.push({
+        path: `/recommend/${songList.content_id}`
+      })
+      this.setDisc(songList)
     }
   },
   components: {

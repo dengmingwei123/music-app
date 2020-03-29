@@ -22,6 +22,7 @@
         <div
           class="playBtn"
           v-show='songs.length'
+          @click='random'
         >
           <i class='icon-play'></i>
           <span class='text'>随机播放全部</span>
@@ -67,11 +68,13 @@ import Scroll from 'base/scroll/Scroll.vue'
 import Loading from 'base/loading/Loading.vue'
 import { prefixStyle } from 'common/js/dom'
 import { mapActions } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
 const HEADER_HEIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
 export default {
+  mixins: [playlistMixin],
   props: {
     title: {
       type: String,
@@ -107,17 +110,29 @@ export default {
     this.$refs.list.$el.style.top = this.imageHeight + 'px'
   },
   methods: {
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
+      this.$refs.list.$el.style.bottom = bottom
+      this.$refs.list.refresh()
+    },
     ...mapActions([
-      'playMusic'
+      'playMusic',
+      'randomPlay'
     ]),
     back() {
       this.$router.back()
     },
+    // 实时获取滚动值
     scroll(pos) {
       this.scrollY = pos.y
     },
+    // 选中播放
     selectSong(song, index) {
-      this.playMusic({ list: this.songs, index })
+      this.playMusic({ list: this.songs, index, song })
+    },
+    // 随机播放
+    random() {
+      this.randomPlay({ list: this.songs })
     }
   },
   watch: {

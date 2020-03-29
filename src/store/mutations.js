@@ -16,11 +16,14 @@ const mutations = {
   [types.SET_SEQUENCE_LIST](state, array) {
     state.sequenceList = array
   },
-  [types.SET_MODE](state, number) {
+  [types.SET_MODE_STATE](state, number) {
     state.mode = number
   },
   [types.SET_CURRENT_INDEX](state, number) {
     state.currentIndex = number
+  },
+  [types.SET_DISC](state, disc) {
+    state.disc = disc
   }
 }
 

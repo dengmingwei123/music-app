@@ -83,3 +83,28 @@ export function getDiscList() {
     return Promise.resolve(res.data)
   })
 }
+
+// 获取歌单详情数据
+export function getSongList(id) {
+  const url = '/api/getSongList'
+  const data = Object.assign({}, commonParams, {
+    type: 1,
+    json: 1,
+    utf8: 1,
+    onlysong: 0,
+    new_format: 1,
+    disstid: id,
+    g_tk_new_20200303: 5381,
+    loginUin: 0,
+    hostUin: 0,
+    format: 'json',
+    platform: 'yqq.json',
+    needNewCode: 0
+  })
+
+  return axios.get(url, {
+    params: data
+  }).then(res => {
+    return Promise.resolve(res.data)
+  })
+}

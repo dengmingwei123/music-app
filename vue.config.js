@@ -11,7 +11,6 @@ function resolve(dir) {
 module.exports = {
   devServer: {
     open: true,
-    // host: '192.168.123.175',
     before(app) {
       // 获取轮播图数据
       app.get('/api/getTopBanner', function (req, res) {
@@ -124,6 +123,39 @@ module.exports = {
           }
         }).then(response => {
           res.json(response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+      })
+
+      // 获取歌单详情数据
+      app.get('/api/getSongList', function (req, res) {
+        const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          response = response.data
+          const { code } = response
+          if (code === ERR_OK) {
+            const songList = response.cdlist[0] && response.cdlist[0].songlist
+            if (songList) {
+              res.json({
+                code: ERR_OK,
+                data: songList
+              })
+            } else {
+              res.json(response)
+            }
+          } else {
+            res.json({
+              code: ERR_OFF
+            })
+          }
         }).catch(err => {
           console.log(err)
         })
