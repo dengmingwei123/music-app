@@ -8,6 +8,12 @@ import Disc from 'components/disc/Disc.vue'
 import Singer from 'components/singer/Singer.vue'
 // 引入歌手详情页
 import SingerDetail from 'components/singer-detail/Singer-Detail.vue'
+// 引入排行页面
+import Rank from 'components/rank/Rank.vue'
+// 引入排行详情页面
+import TopList from 'components/top-list/Top-List.vue'
+// 引入搜索页面
+import Search from 'components/search/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +43,22 @@ const routes = [
         component: SingerDetail
       }
     ]
+  },
+  {
+    path: '/rank',
+    name: 'rank',
+    component: Rank,
+    children: [
+      {
+        path: ':id',
+        component: TopList
+      }
+    ]
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search
   }
 ]
 

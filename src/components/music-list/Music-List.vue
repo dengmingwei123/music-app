@@ -49,6 +49,7 @@
       <div class="song-list-wrapper">
         <song-list
           :songs='songs'
+          :rank='rank'
           @select='selectSong'
         ></song-list>
       </div>
@@ -87,6 +88,10 @@ export default {
     songs: {
       type: Array,
       default: null
+    },
+    rank: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

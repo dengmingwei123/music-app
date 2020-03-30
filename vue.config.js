@@ -160,6 +160,71 @@ module.exports = {
           console.log(err)
         })
       })
+
+      // 获取排行榜数据
+      app.get('/api/getRankList', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          response = response.data
+          const { code } = response
+          if (code === ERR_OK) {
+            const rankList = response.topList.data && response.topList.data.group
+            if (rankList) {
+              res.json({
+                code: ERR_OK,
+                data: rankList
+              })
+            } else {
+              res.json(response)
+            }
+          } else {
+            res.json({
+              code: ERR_OFF
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      })
+
+      // 获取热门搜索数据
+      app.get('/api/getHotKey', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          response = response.data
+          const { code } = response
+          if (code === ERR_OK) {
+            const hotKeyList = response.hotkey.data && response.hotkey.data.vec_hotkey
+            if (hotKeyList) {
+              res.json({
+                code: ERR_OK,
+                data: hotKeyList
+              })
+            } else {
+              res.json(response)
+            }
+          } else {
+            res.json({
+              code: ERR_OFF
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      })
     }
   },
   chainWebpack(config) {
