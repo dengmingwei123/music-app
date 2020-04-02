@@ -14,3 +14,16 @@ export const shuffle = function (arr) {
 
   return _arr
 }
+
+// 节流函数,防止重复发送请求
+export const debounce = function (func, delay) {
+  let timer
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}

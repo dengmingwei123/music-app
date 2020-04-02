@@ -225,6 +225,24 @@ module.exports = {
           console.log(err)
         })
       })
+
+      // 获取搜索结果数据
+      app.get('/api/getSearchResult', function (req, res) {
+        const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
+
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          response = response.data
+          res.json(response)
+        }).catch(err => {
+          console.log(err)
+        })
+      })
     }
   },
   chainWebpack(config) {

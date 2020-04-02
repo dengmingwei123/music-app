@@ -115,7 +115,6 @@ export default {
       const res = await getDiscList()
       const { code, data } = res
       if (code === ERR_OK) {
-        console.log(data)
         this.discList = data
       }
     },

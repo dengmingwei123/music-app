@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    @touchmove.prevent
+  >
     <my-header></my-header>
     <tab></tab>
     <keep-alive>

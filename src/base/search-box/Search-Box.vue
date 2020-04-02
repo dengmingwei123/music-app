@@ -6,6 +6,7 @@
     <div class='text-box'>
       <input
         class='text'
+        ref='query'
         v-model='query'
         :placeholder='placeholder'
       >
@@ -21,6 +22,8 @@
 </template>
 
 <script>
+import { debounce } from 'common/js/util'
+
 export default {
   props: {
     placeholder: {
@@ -36,12 +39,20 @@ export default {
   methods: {
     clear() {
       this.query = ''
+    },
+    // 设置搜索框的内容
+    setQuery(query) {
+      this.query = query
+    },
+    // 让input框失去焦点
+    inputBlur() {
+      this.$refs.query.blur()
     }
   },
   created() {
-    this.$watch('query', (newQuery) => {
+    this.$watch('query', debounce((newQuery) => {
       this.$emit('query', newQuery)
-    })
+    }, 300))
   }
 }
 </script>
