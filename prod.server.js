@@ -13,7 +13,7 @@ var app = express()
 var apiRoutes = express.Router()
 
 // 获取轮播图数据
-apiRoutes.get('/api/getTopBanner', function (req, res) {
+apiRoutes.get('/getTopBanner', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
   const jumpPrefix = 'https://y.qq.com/n/yqq/album/'
   axios.get(url, {
@@ -54,7 +54,7 @@ apiRoutes.get('/api/getTopBanner', function (req, res) {
 })
 
 // 获取推荐歌单数据
-apiRoutes.get('/api/getDiscList', function (req, res) {
+apiRoutes.get('/getDiscList', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
   axios.get(url, {
     headers: {
@@ -86,7 +86,7 @@ apiRoutes.get('/api/getDiscList', function (req, res) {
 })
 
 // 获取歌词
-apiRoutes.get('/api/getLyric', function (req, res) {
+apiRoutes.get('/getLyric', function (req, res) {
   const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 
   axios.get(url, {
@@ -112,7 +112,7 @@ apiRoutes.get('/api/getLyric', function (req, res) {
 })
 
 // 获取歌曲播放url
-apiRoutes.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
+apiRoutes.post('/getPurlUrl', bodyParser.json(), function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
 
   axios.post(url, req.body, {
@@ -129,7 +129,7 @@ apiRoutes.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
 })
 
 // 获取歌单详情数据
-apiRoutes.get('/api/getSongList', function (req, res) {
+apiRoutes.get('/getSongList', function (req, res) {
   const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
 
   axios.get(url, {
@@ -162,7 +162,7 @@ apiRoutes.get('/api/getSongList', function (req, res) {
 })
 
 // 获取排行榜数据
-apiRoutes.get('/api/getRankList', function (req, res) {
+apiRoutes.get('/getRankList', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
 
   axios.get(url, {
@@ -195,7 +195,7 @@ apiRoutes.get('/api/getRankList', function (req, res) {
 })
 
 // 获取热门搜索数据
-apiRoutes.get('/api/getHotKey', function (req, res) {
+apiRoutes.get('/getHotKey', function (req, res) {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
   axios.get(url, {
     headers: {
@@ -227,7 +227,7 @@ apiRoutes.get('/api/getHotKey', function (req, res) {
 })
 
 // 获取搜索结果数据
-apiRoutes.get('/api/getSearchResult', function (req, res) {
+apiRoutes.get('/getSearchResult', function (req, res) {
   const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
 
   axios.get(url, {
