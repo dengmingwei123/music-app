@@ -58,9 +58,9 @@
       </div>
       <div
         class="no-result-wrapper"
-        v-show='favoriteList.length===0'
+        v-show='noResult'
       >
-        <no-result title='暂无喜欢的音乐'></no-result>
+        <no-result :title='noResultDesc'></no-result>
       </div>
     </div>
   </transition>
@@ -84,7 +84,21 @@ export default {
     ...mapGetters([
       'playHistory',
       'favoriteList'
-    ])
+    ]),
+    noResult() {
+      if (this.switchIndex === 0) {
+        return !this.favoriteList.length
+      } else {
+        return !this.playHistory.length
+      }
+    },
+    noResultDesc() {
+      if (this.switchIndex === 0) {
+        return '暂无收藏歌曲'
+      } else {
+        return '您还没有听过歌曲'
+      }
+    }
   },
   created() {
     this.switches = ['我喜欢的', '最近听的']
