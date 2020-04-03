@@ -10,7 +10,7 @@
           <div class="button">
             <div
               class="btn cancel"
-              @click='cancel'
+              @click.stop='cancel'
             >{{ cancelBtnText }}</div>
             <div
               class="btn empty"

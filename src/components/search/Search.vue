@@ -19,6 +19,7 @@
         class="shortcut"
         ref='shortcut'
         :data='searchHistory'
+        :refreshDelay='refreshDelay'
         :click='click'
       >
         <div>
@@ -88,21 +89,16 @@ import Scroll from 'base/scroll/Scroll.vue'
 import Confirm from 'base/confirm/Confirm.vue'
 import { getHotKeyList } from 'api/search'
 import { ERR_OK } from 'api/config'
-import { playlistMixin } from 'common/js/mixin'
-import { mapActions, mapGetters } from 'vuex'
+import { playlistMixin, searchMixin } from 'common/js/mixin'
 
 export default {
-  mixins: [playlistMixin],
+  mixins: [playlistMixin, searchMixin],
   data() {
     return {
-      query: '',
       hotKeyList: []
     }
   },
   computed: {
-    ...mapGetters([
-      'searchHistory'
-    ])
   },
   created() {
     this.click = true
@@ -110,11 +106,6 @@ export default {
     this._getHotKeyList()
   },
   methods: {
-    ...mapActions([
-      'saveSearchHistory',
-      'deleteSearchHistory',
-      'clearSearchHistory'
-    ]),
     handlePlaylist(playlist) {
       const bottom = playlist.length > 0 ? '60px' : ''
       this.$refs.searchResult.style.bottom = bottom
@@ -129,28 +120,9 @@ export default {
         this.hotKeyList = data.slice(0, 16)
       }
     },
-    // 获取搜索框的值
-    getQuery(query) {
-      this.query = query
-    },
     // 将热门的key输入到搜索框中
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
-    },
-    // 让input框失去焦点
-    inputBlur() {
-      this.$refs.searchBox.inputBlur()
-    },
-    // 保存当前搜索框中的值
-    saveSearch(item) {
-      this.saveSearchHistory({ query: this.query })
-    },
-    // 选中历史记录
-    selectHistory(item) {
-      this.$refs.searchBox.setQuery(item)
-    },
-    deleteOne(item) {
-      this.deleteSearchHistory({ query: item })
     },
     // 清空搜索历史纪录
     clearHistory() {
@@ -159,6 +131,10 @@ export default {
     // 确定清空
     confirm() {
       this.clearSearchHistory()
+    },
+    // 保存当前搜索框中的值
+    saveSearch(item) {
+      this.saveSearchHistory({ query: this.query })
     }
   },
   watch: {
@@ -244,7 +220,7 @@ export default {
           .clear {
             flex: 0 0 34px;
             width: 34px;
-            text-align: center;
+            text-align: right;
             color: $color-text-d;
           }
         }

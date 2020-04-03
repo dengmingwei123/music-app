@@ -113,7 +113,6 @@ export default {
   },
   methods: {
     handlePlaylist(playlist) {
-      console.log(playlist)
       const bottom = playlist.length > 0 ? '60px' : ''
       this.$refs.rank.style.bottom = bottom
       this.$refs.rankWrapper.refresh()

@@ -73,7 +73,7 @@ export default {
     .delete {
       flex: 0 0 34px;
       width: 34px;
-      text-align: center;
+      text-align: right;
 
       .icon-delete {
         color: $color-text-d;

@@ -31,6 +31,10 @@ export default {
     beforeScroll: {
       type: Boolean,
       default: false
+    },
+    refreshDelay: {
+      type: Number,
+      default: 20
     }
   },
   mounted() {
@@ -89,8 +93,10 @@ export default {
   watch: {
     // 监听data的变化
     data() {
-      // 变化了,重新刷新scroll
-      this.refresh()
+      setTimeout(() => {
+        // 变化了,重新刷新scroll
+        this.refresh()
+      }, this.refreshDelay)
     }
   }
 }

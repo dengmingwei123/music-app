@@ -14,6 +14,8 @@ import Rank from 'components/rank/Rank.vue'
 import TopList from 'components/top-list/Top-List.vue'
 // 引入搜索页面
 import Search from 'components/search/Search.vue'
+// 引入用户中心页面
+import UserCenter from 'components/user-center/User-Center.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +67,11 @@ const routes = [
         component: SingerDetail
       }
     ]
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserCenter
   }
 ]
 

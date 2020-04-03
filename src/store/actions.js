@@ -1,7 +1,7 @@
 import * as types from './mutation-types'
 import { playMode } from 'common/js/config'
 import { shuffle } from 'common/js/util'
-import { saveSearch, deleteSearch, clearSearch } from 'common/js/cache'
+import { saveSearch, deleteSearch, clearSearch, playHistory, saveFavorite } from 'common/js/cache'
 
 function findIndex(list, song) {
   return list.findIndex(v => {
@@ -116,4 +116,52 @@ export const deleteSearchHistory = function ({ commit, state }, { query }) {
 export const clearSearchHistory = function ({ commit, state }) {
   const history = clearSearch()
   commit(types.SET_SEARCH_HISTORY, history)
+}
+
+// 删除列表的一首歌
+export const deleteSong = function ({ commit, state }, { song }) {
+  const playlist = state.playlist.slice()
+  const sequenceList = state.sequenceList.slice()
+  let currentIndex = state.currentIndex
+  // 获取当前要删除歌曲在播放列表的位置
+  const playIndex = findIndex(playlist, song)
+  // 删除
+  playlist.splice(playIndex, 1)
+  // 获取当前要删除歌曲在顺序列表的位置
+  const requenceIndex = findIndex(sequenceList, song)
+  // 删除
+  sequenceList.splice(requenceIndex, 1)
+  // 判断当前播放索引是否大于要删除歌曲的索引,或者当前播放的是最后一条
+  if (currentIndex > playIndex || currentIndex === playlist.length) {
+    // index需要-1
+    currentIndex--
+  }
+  commit(types.SET_PLAYLIST, playlist)
+  commit(types.SET_SEQUENCE_LIST, sequenceList)
+  commit(types.SET_CURRENT_INDEX, currentIndex)
+  // 如果播放列表没有歌曲了,需要停止播放
+  if (!playlist.length) {
+    commit(types.SET_CURRENT_INDEX, 0)
+    commit(types.SET_PLAYING_STATE, false)
+  }
+}
+
+// 清空列表所有歌曲
+export const clearSong = function ({ commit, state }) {
+  commit(types.SET_CURRENT_INDEX, 0)
+  commit(types.SET_PLAYING_STATE, false)
+  commit(types.SET_PLAYLIST, [])
+  commit(types.SET_SEQUENCE_LIST, [])
+}
+
+// 修改最近播放的列表
+export const changePlayHistory = function ({ commit, state }, { song }) {
+  const playHistoryList = playHistory(song)
+  commit(types.SET_PLAY_HISTORY, playHistoryList)
+}
+
+// 修改喜欢的音乐列表
+export const changeFavoriteList = function ({ commit, state }, { song }) {
+  const favoriteList = saveFavorite(song)
+  commit(types.SET_FAVORITE_LIST, favoriteList)
 }
