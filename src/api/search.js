@@ -1,9 +1,11 @@
 import { commonParams } from './config'
 import axios from 'axios'
 
+const debug = process.env.NODE_ENV !== 'production'
+
 // 获取热门搜索的数据
 export function getHotKeyList() {
-  const url = '/api/getHotKey'
+  const url = debug ? '/api/getHotKey' : 'http://www.dengmingwei.com/music/api/getHotKey'
   const data = Object.assign({}, commonParams, {
     '-': (Math.random() + '').replace('0.', ''),
     data: {
@@ -36,7 +38,7 @@ export function getHotKeyList() {
 
 // 获取搜索结果数据
 export function getSearchResult({ query = '', page = 1, perpage = 20, zhida }) {
-  const url = '/api/getSearchResult'
+  const url = debug ? '/api/getSearchResult' : 'http://www.dengmingwei.com/music/api/getSearchResult'
   const data = Object.assign({}, commonParams, {
     '-': (Math.random() + '').replace('0.', ''),
     uin: 0,

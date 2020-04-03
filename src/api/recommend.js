@@ -2,9 +2,11 @@
 import axios from 'axios'
 import { commonParams } from './config'
 
+const debug = process.env.NODE_ENV !== 'production'
+
 // 获取轮播图数据
 export function getRecommend() {
-  const url = '/api/getTopBanner'
+  const url = debug ? '/api/getTopBanner' : 'http://www.dengmingwei.com/music/api/getTopBanner'
   const data = Object.assign({}, commonParams, {
     platform: 'yqq.json',
     hostUin: 0,
@@ -45,7 +47,7 @@ export function getRecommend() {
 
 // 获取歌单数据
 export function getDiscList() {
-  const url = '/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : 'http://www.dengmingwei.com/music/api/getDiscList'
   const data = Object.assign({}, commonParams, {
     platform: 'yqq.json',
     hostUin: 0,
@@ -86,7 +88,7 @@ export function getDiscList() {
 
 // 获取歌单详情数据
 export function getSongList(id) {
-  const url = '/api/getSongList'
+  const url = debug ? '/api/getSongList' : 'http://www.dengmingwei.com/music/api/getSongList'
   const data = Object.assign({}, commonParams, {
     type: 1,
     json: 1,

@@ -2,8 +2,10 @@ import { commonParams, options } from './config'
 import jsonp from 'common/js/jsonp'
 import axios from 'axios'
 
+const debug = process.env.NODE_ENV !== 'production'
+
 export function getRankList() {
-  const url = '/api/getRankList'
+  const url = debug ? '/api/getRankList' : 'http://www.dengmingwei.com/music/api/getRankList'
   const data = Object.assign({}, commonParams, {
     '-': (Math.random() + '').replace('0.', ''),
     data: {

@@ -114,7 +114,6 @@ export default {
       this.insertSong({ song })
     },
     randomPlaySong() {
-      console.log(1)
       if (this.switchIndex === 0) {
         if (this.favoriteList.length <= 0) {
           return

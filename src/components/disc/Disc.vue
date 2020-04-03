@@ -37,7 +37,6 @@ export default {
   },
   created() {
     if (!this.disc.content_id) {
-      console.log(1)
       this.$router.back()
     }
     this._getSongList()

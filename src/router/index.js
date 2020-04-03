@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 引入推荐页面
-import Recommend from 'components/recommend/Recommend.vue'
-// 引入推荐详情页
-import Disc from 'components/disc/Disc.vue'
-// 引入歌手页面
-import Singer from 'components/singer/Singer.vue'
-// 引入歌手详情页
-import SingerDetail from 'components/singer-detail/Singer-Detail.vue'
-// 引入排行页面
-import Rank from 'components/rank/Rank.vue'
-// 引入排行详情页面
-import TopList from 'components/top-list/Top-List.vue'
-// 引入搜索页面
-import Search from 'components/search/Search.vue'
 // 引入用户中心页面
-import UserCenter from 'components/user-center/User-Center.vue'
+const UserCenter = () => import('components/user-center/User-Center.vue')
+// 引入搜索页面
+const Search = () => import('components/search/Search.vue')
+// 引入排行详情页面
+const TopList = () => import('components/top-list/Top-List.vue')
+// 引入排行页面
+const Rank = () => import('components/rank/Rank.vue')
+// 引入歌手详情页
+const SingerDetail = () => import('components/singer-detail/Singer-Detail.vue')
+// 引入歌手页面
+const Singer = () => import('components/singer/Singer.vue')
+// 引入推荐详情页
+const Disc = () => import('components/disc/Disc.vue')
+// 引入推荐页面
+const Recommend = () => import('components/recommend/Recommend.vue')
 
 Vue.use(VueRouter)
 
